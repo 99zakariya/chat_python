@@ -7,7 +7,8 @@ def accept_client():
         cli_sock, cli_add = ser_sock.accept()
         uname = cli_sock.recv(1024)
         user.append((uname, cli_sock))
-        wating_m.append((cli_sock,"Chat room ".encode(),((uname.decode())+' has joined the chat room').encode()))
+        #wating_m.append((cli_sock,"Chat room ".encode(),((uname.decode())+' has joined the chat room').encode()))
+        wating_m.append((cli_sock,( "Chat room > {} has joined the chat room".format(uname.decode())).encode()))
         print('{} is now connected ip:- {}   port:- {} ' .format(uname.decode(), cli_add[0],cli_add[1]))
 
 def broadcast_usr():
@@ -16,10 +17,11 @@ def broadcast_usr():
             try:
                 data = i[1].recv(1024)
                 if data:
-                    wating_m.append((i[1], i[0], data))
+                    wating_m.append((i[1],("{} > {}".format( i[0].decode(),data.decode())).encode()))
             except Exception as x:
                 print(i[0].decode()+' left chat room')
-                wating_m.append((i[1],"Chat room ".encode(),((i[0].decode())+' has left the chat room').encode()))
+                wating_m.append((i[1],( "Chat room > {} has left the chat room".format(i[0].decode())).encode()))
+                # wating_m.append((i[1],"Chat room ".encode(),((i[0].decode())+' has left the chat room').encode()))
                 try:
                     user.remove(i)
                 except:
@@ -35,10 +37,11 @@ def send():
                 try:
                     if (i[1] != wating_m[0][0]):
                         i[1].send(wating_m[0][1])
-                        i[1].send(wating_m[0][2])
+                       
                 except Exception as x:
                         print((i[0]).decode()+' left chat room from send')
-                        wating_m.append((i[1],"Chat room ".encode(),((i[0].decode())+' has left the chat room').encode()))
+                        wating_m.append((i[1],( "Chat room > {} has left the chat room".format(i[0].decode())).encode()))
+                        #wating_m.append((i[1],("Chat room >",(i[0].decode()),' has left the chat room').encode()))
                         try:
                             user.remove(i)
                         except:
@@ -57,7 +60,7 @@ if __name__ == "__main__":
     ser_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # bind
-    HOST = '192.168.15.207'
+    HOST = 'localhost'
     PORT = 5023
     ser_sock.bind((HOST, PORT))
 

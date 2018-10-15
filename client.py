@@ -7,17 +7,17 @@ def send():
 
 def receive():
     while True:
-        sen_name = cli_sock.recv(1024)
+        
         data = cli_sock.recv(1024)
 
-        print('\n' + str(sen_name.decode()) + ' > ' + str(data.decode()))
+        print('\n' + str(data.decode()))
 
 if __name__ == "__main__":   
     # socket
     cli_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # connect
-    HOST = '192.168.15.207'
+    HOST = 'localhost'
     PORT = 5023
     cli_sock.connect((HOST, PORT))     
     print('Connected to remote host...')
