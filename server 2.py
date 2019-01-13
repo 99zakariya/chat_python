@@ -9,7 +9,7 @@ def accept_client():
         uname = cli_sock.recv(1024)
         user.append((uname, cli_sock))
        
-        wating_m.append((cli_sock,( "Chat room > {} has joined the chat room".format(uname.decode())).encode()))
+        wating_m.append((cli_sock,( "Chat room > {} has joined the chat room\n".format(uname.decode())).encode()))
         print('{} is now connected ip:- {}   port:- {} ' .format(uname.decode(), cli_add[0],cli_add[1]))
         start_new_thread(rec,(uname, cli_sock)) # making dedecated thread
 
@@ -19,10 +19,10 @@ def rec(name,u):
        try:
            data = u.recv(1024)
            if data:
-               wating_m.append((u,("{} > {}".format( name.decode(),data.decode())).encode()))
+               wating_m.append((u,("{} > {}\n".format( name.decode(),data.decode())).encode()))
        except Exception as x:
            print(name.decode()+' left chat room')
-           wating_m.append((u,( "Chat room > {} has left the chat room".format(name.decode())).encode()))    
+           wating_m.append((u,( "Chat room > {} has left the chat room\n".format(name.decode())).encode()))    
            try:
                user.remove((name,u))
            except:
@@ -72,7 +72,7 @@ def send():
                        
                 except Exception as x:
                         print((i[0]).decode()+' left chat room from send')
-                        wating_m.append((i[1],( "Chat room > {} has left the chat room".format(i[0].decode())).encode()))
+                        wating_m.append((i[1],( "Chat room > {} has left the chat room\n".format(i[0].decode())).encode()))
                        
                         try:
                             user.remove(i)
